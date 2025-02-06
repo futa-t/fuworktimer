@@ -8,6 +8,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <PublishSingleFile>true</PublishSingleFile>
+    <PackageProjectUrl>https://github.com/futa-t/fuworktimer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/futa-t/fuworktimer</RepositoryUrl>
+    <NeutralLanguage>ja-JP</NeutralLanguage>
+    <ErrorReport>none</ErrorReport>
+    <StartupObject>fuworktimer.Program</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
