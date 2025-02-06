@@ -26,10 +26,10 @@ jobs:
         run: msbuild fuworktimer.csproj /p:Configuration=Release /p:Platform="Any CPU" /p:PublishProfile="Properties\PublishProfiles\FloderProfile1.pubxml"
 
       - name: Archive
-        run: Compress-Archive -Path "bin\Any CPU\Release\net9.0-windows\" -DestinationPath fuworktimer.zip
+        run: cp "bin\Any CPU\Release\net9.0-windows\fuworktimer.exe" .
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: fuworktimer.zip
+          files: fuworktimer.exe
         
