@@ -10,9 +10,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
 
       - name: Setup Nuget
         uses: Nuget/setup-nuget@v2
@@ -23,10 +25,10 @@ jobs:
         run: nuget restore fuworktimer.sln
 
       - name: Build
-        run: msbuild fuworktimer.csproj /p:Configuration=Release /p:Platform="Any CPU" /p:PublishProfile="Properties\PublishProfiles\FloderProfile1.pubxml"
+        run: dotnet publish --sc -o gh
 
       - name: Archive
-        run: cp "bin\Any CPU\Release\net9.0-windows\fuworktimer.exe" .
+        run: cp gh\fuworktimer.exe .
 
       - name: Release
         uses: softprops/action-gh-release@v2
