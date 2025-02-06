@@ -16,14 +16,6 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Setup Nuget
-        uses: Nuget/setup-nuget@v2
-        with:
-          nuget-version: 'latest'
-
-      - name: Restore Nuget Package
-        run: nuget restore fuworktimer.sln
-
       - name: Build
         run: dotnet publish --sc -o gh
 
