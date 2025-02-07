@@ -16,6 +16,10 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Set culture to ja-JP
+        run: |
+          Set-Culture ja-JP
+          
       - name: Build
         run: dotnet publish -o gh --no-self-contained
 
