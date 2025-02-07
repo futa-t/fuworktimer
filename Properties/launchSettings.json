@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "fuworktimer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DEBUG": "1"
+      }
+    }
+  }
+}

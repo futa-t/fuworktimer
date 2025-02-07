@@ -14,11 +14,10 @@ public partial class Form1 : Form
     readonly Dictionary<string, WindowData> windowList = [];
 
     private WindowData? currentActive;
+    private AutoSaveTimer autoSaveTimer;
 
     private readonly string appProcName;
     private string? focusProcName;
-
-    private string SaveFilePath = "fl.pack";
 
     public Form1()
     {
@@ -28,8 +27,10 @@ public partial class Form1 : Form
         }
 
         InitializeComponent();
-
         LoadWindowList();
+        autoSaveTimer = new(callback: SaveWindowList);
+        autoSaveTimer.Start();
+        SaveWindowList();
         timer1.Start();
     }
 
@@ -97,23 +98,34 @@ public partial class Form1 : Form
             window.ActiveTimeSession = 0;
     }
 
+
+    private static string DailySaveFile()
+    {
+        string today = DateTime.Now.ToString("yyMMdd");
+
+        return Path.Combine(Program.AppDir, $"{today}.pack");
+    }
+
     public void SaveWindowList()
     {
+        string fname = DailySaveFile();
+        Debug.WriteLine($"Save as {fname}");
         List<WindowDataPack> list = [];
 
         foreach (var item in windowList.Values)
             list.Add(new WindowDataPack(item.ProcessName, item.Color.ToArgb(), item.ActiveTimeTotal));
 
-        File.WriteAllBytes(SaveFilePath, MemoryPackSerializer.Serialize(list));
+        File.WriteAllBytes(fname, MemoryPackSerializer.Serialize(list));
     }
 
     public void LoadWindowList()
     {
         try
         {
-            if (!File.Exists(SaveFilePath)) return;
+            string fname = DailySaveFile();
+            if (!File.Exists(fname)) return;
 
-            var data = MemoryPackSerializer.Deserialize<List<WindowDataPack>>(File.ReadAllBytes(SaveFilePath));
+            var data = MemoryPackSerializer.Deserialize<List<WindowDataPack>>(File.ReadAllBytes(fname));
             if (data == null) return;
 
             foreach (var d in data)
@@ -127,8 +139,10 @@ public partial class Form1 : Form
 
     private void Form1_FormClosing(object? sender, FormClosingEventArgs e)
     {
+#if !DEBUG
         e.Cancel = true;
         this.WindowState = FormWindowState.Minimized;
+#endif
         SaveWindowList();
     }
 
@@ -204,3 +218,24 @@ public partial class WindowDataPack
         ActiveTime = activeTime;
     }
 }
+
+public class AutoSaveTimer(Action callback)
+{
+    private System.Threading.Timer _timer;
+    private event Action _callback = callback;
+    
+
+
+    public void Start() { 
+        DateTime now = DateTime.Now;
+        DateTime addHour = new DateTime(now.Year, now.Month,now.Day, now.Hour, 0, 0).AddHours(1);
+        TimeSpan next = addHour - now;
+        this._timer = new(Callback, null, next, TimeSpan.FromHours(1));
+    }
+
+    public void Stop() => this._timer.Dispose();
+
+    private void Callback(object? state) => Task.Run(this._callback.Invoke);
+
+}
+

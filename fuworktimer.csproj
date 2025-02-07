@@ -13,7 +13,8 @@
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <ErrorReport>none</ErrorReport>
     <StartupObject>fuworktimer.Program</StartupObject>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>1.0.3</VersionPrefix>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
