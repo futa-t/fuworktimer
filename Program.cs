@@ -29,7 +29,7 @@ internal static class Program
             if (!createdNew)
             {
                 MessageBox.Show(
-                    "Šù‚É‹N“®‚µ‚Ä‚¢‚Ü‚·B",
+                    "ã™ã§ã«èµ·å‹•ã—ã¦ã„ã¾ã™",
                     assemblyName,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
