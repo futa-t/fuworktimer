@@ -6,6 +6,7 @@ using MemoryPack;
 
 using static fuworktimer.Win32;
 using static fuworktimer.ColorUtil;
+using System.Xml.Serialization;
 
 namespace fuworktimer;
 
@@ -27,9 +28,11 @@ public partial class Form1 : Form
         }
 
         InitializeComponent();
+
         LoadWindowList();
         autoSaveTimer = new(callback: SaveWindowList);
         autoSaveTimer.Start();
+
         SaveWindowList();
         timer1.Start();
     }
@@ -73,13 +76,26 @@ public partial class Form1 : Form
 
         this.Text = window.ProcessName;
 
-        if (focusProcName != null) 
+        if (focusProcName != null)
             this.Text += "[focus]";
 
-        if (focusProcName != null && focusProcName != currentActive?.ProcessName)
-            this.BackColor =Color.LightGray;
-        else
-            this.BackColor = window.Color;
+        try
+        {
+            // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
+            if (focusProcName != null && focusProcName != currentActive?.ProcessName)
+            {
+                this.BackColor = Color.LightGray;
+                notifyIcon1.Icon = Resource1.focusout;
+            }
+            else
+            {
+                this.BackColor = window.Color;
+                using MemoryStream ms = new MemoryStream(Resource1.focus1);
+                notifyIcon1.Icon = new Icon(ms);
+            }
+        } catch (Exception ex){
+            Program.ErrorLog(ex);
+        }
 
         int time = 0;
         if (viewTotalTime.Checked)
@@ -91,6 +107,8 @@ public partial class Form1 : Form
 
         this.notifyIcon1.Text = $"{this.Text} {ActiveTimeLabel.Text}";
     }
+
+    
 
     private void ResetEvent(object sender, EventArgs e)
     {
@@ -221,19 +239,18 @@ public partial class WindowDataPack
 
 public class AutoSaveTimer(Action callback)
 {
-    private System.Threading.Timer _timer;
+    private System.Threading.Timer? _timer;
     private event Action _callback = callback;
-    
 
-
-    public void Start() { 
+    public void Start()
+    {
         DateTime now = DateTime.Now;
-        DateTime addHour = new DateTime(now.Year, now.Month,now.Day, now.Hour, 0, 0).AddHours(1);
+        DateTime addHour = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0).AddHours(1);
         TimeSpan next = addHour - now;
         this._timer = new(Callback, null, next, TimeSpan.FromHours(1));
     }
 
-    public void Stop() => this._timer.Dispose();
+    public void Stop() => this._timer?.Dispose();
 
     private void Callback(object? state) => Task.Run(this._callback.Invoke);
 

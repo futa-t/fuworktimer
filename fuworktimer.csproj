@@ -6,14 +6,14 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <ApplicationIcon>assets\focus.ico</ApplicationIcon>
     <PublishSingleFile>true</PublishSingleFile>
     <PackageProjectUrl>https://github.com/futa-t/fuworktimer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/futa-t/fuworktimer</RepositoryUrl>
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <ErrorReport>none</ErrorReport>
     <StartupObject>fuworktimer.Program</StartupObject>
-    <VersionPrefix>1.0.3</VersionPrefix>
+    <VersionPrefix>1.0.4</VersionPrefix>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
@@ -26,7 +26,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="favicon.ico" />
+    <None Remove="favicon.ico" />
+    <None Remove="fulogger.clip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\focus.ico" />
   </ItemGroup>
 
   <ItemGroup>

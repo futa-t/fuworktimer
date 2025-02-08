@@ -61,11 +61,41 @@ namespace fuworktimer {
         }
         
         /// <summary>
-        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Icon favicon {
+        internal static byte[] favicon {
             get {
                 object obj = ResourceManager.GetObject("favicon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon focus {
+            get {
+                object obj = ResourceManager.GetObject("focus", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] focus1 {
+            get {
+                object obj = ResourceManager.GetObject("focus1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon focusout {
+            get {
+                object obj = ResourceManager.GetObject("focusout", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

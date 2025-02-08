@@ -39,10 +39,10 @@
             viewTotalTime = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             リセットToolStripMenuItem = new ToolStripMenuItem();
+            閉じるToolStripMenuItem1 = new ToolStripMenuItem();
             notifyIcon1 = new NotifyIcon(components);
             taskiconMenu = new ContextMenuStrip(components);
             閉じるToolStripMenuItem = new ToolStripMenuItem();
-            閉じるToolStripMenuItem1 = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             taskiconMenu.SuspendLayout();
             SuspendLayout();
@@ -117,6 +117,13 @@
             リセットToolStripMenuItem.Text = "リセット";
             リセットToolStripMenuItem.Click += ResetEvent;
             // 
+            // 閉じるToolStripMenuItem1
+            // 
+            閉じるToolStripMenuItem1.Name = "閉じるToolStripMenuItem1";
+            閉じるToolStripMenuItem1.Size = new Size(118, 22);
+            閉じるToolStripMenuItem1.Text = "閉じる";
+            閉じるToolStripMenuItem1.Click += NotifyIconCloseClick;
+            // 
             // notifyIcon1
             // 
             notifyIcon1.ContextMenuStrip = taskiconMenu;
@@ -137,13 +144,6 @@
             閉じるToolStripMenuItem.Size = new Size(104, 22);
             閉じるToolStripMenuItem.Text = "閉じる";
             閉じるToolStripMenuItem.Click += NotifyIconCloseClick;
-            // 
-            // 閉じるToolStripMenuItem1
-            // 
-            閉じるToolStripMenuItem1.Name = "閉じるToolStripMenuItem1";
-            閉じるToolStripMenuItem1.Size = new Size(118, 22);
-            閉じるToolStripMenuItem1.Text = "閉じる";
-            閉じるToolStripMenuItem1.Click += NotifyIconCloseClick;
             // 
             // Form1
             // 

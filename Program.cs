@@ -5,18 +5,16 @@ internal static class Program
 {
     private static Mutex mutex = null;
 
-    public static string AppDir = null;
+    public static string AppDir = Path.Combine(".");
     [STAThread]
     static void Main()
     {
         try
         {
 
-            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "fuworktimer";
             string mutexName = $"Global\\{assemblyName}";
-#if DEBUG
-            AppDir = ".";
-#else
+#if !DEBUG
             AppDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), assemblyName);
 #endif
 
@@ -40,6 +38,10 @@ internal static class Program
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
+        catch (Exception ex)
+        {
+            ErrorLog(ex);
+        }
         finally
         {
             if (mutex != null)
@@ -53,6 +55,23 @@ internal static class Program
                 }
                 mutex.Dispose();
             }
+        }
+    }
+
+    public static void ErrorLog(Exception ex)
+    {
+        string filePath = Path.Combine(Program.AppDir, "error.log");
+        try
+        {
+            using StreamWriter writer = new StreamWriter(filePath, true);
+            writer.WriteLine("Date: " + DateTime.Now.ToString());
+            writer.WriteLine("Error Message: " + ex.Message);
+            writer.WriteLine("Stack Trace: " + ex.StackTrace);
+            writer.WriteLine(new string('-', 40));
+        }
+        catch (Exception logEx)
+        {
+            MessageBox.Show("Error writing to log file: " + logEx.Message);
         }
     }
 }

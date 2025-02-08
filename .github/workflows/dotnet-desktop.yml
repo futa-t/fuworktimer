@@ -19,9 +19,9 @@ jobs:
       - name: Set culture to ja-JP
         run: |
           Set-Culture ja-JP
-          
+
       - name: Build
-        run: dotnet publish -o gh --no-self-contained
+        run: dotnet publish --property:PublishDir=gh --no-self-contained
 
       - name: Archive
         run: cp gh\fuworktimer.exe .
