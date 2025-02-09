@@ -60,6 +60,7 @@ internal static class Program
 
     public static void ErrorLog(Exception ex)
     {
+        // ログ出力しないでおちるし
         string filePath = Path.Combine(Program.AppDir, "error.log");
         try
         {
@@ -72,6 +73,10 @@ internal static class Program
         catch (Exception logEx)
         {
             MessageBox.Show("Error writing to log file: " + logEx.Message);
+        }
+        finally
+        {
+            MessageBox.Show("Error");
         }
     }
 }

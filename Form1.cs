@@ -82,16 +82,17 @@ public partial class Form1 : Form
         try
         {
             // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
+        
             if (focusProcName != null && focusProcName != currentActive?.ProcessName)
             {
                 this.BackColor = Color.LightGray;
-                notifyIcon1.Icon = Resource1.focusout;
+                //notifyIcon1.Icon = Resource1.focusout;
             }
             else
             {
                 this.BackColor = window.Color;
-                using MemoryStream ms = new MemoryStream(Resource1.focus1);
-                notifyIcon1.Icon = new Icon(ms);
+                //using MemoryStream ms = new MemoryStream(Resource1.focus1);
+                //notifyIcon1.Icon = new Icon(ms);
             }
         } catch (Exception ex){
             Program.ErrorLog(ex);
