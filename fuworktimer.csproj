@@ -13,7 +13,7 @@
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <ErrorReport>none</ErrorReport>
     <StartupObject>fuworktimer.Program</StartupObject>
-    <VersionPrefix>1.0.4</VersionPrefix>
+    <VersionPrefix>1.0.4.4</VersionPrefix>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 

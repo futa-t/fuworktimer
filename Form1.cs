@@ -82,21 +82,23 @@ public partial class Form1 : Form
         try
         {
             // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
-        
+
+            Icon? currentIcon = notifyIcon1.Icon; 
             if (focusProcName != null && focusProcName != currentActive?.ProcessName)
             {
                 this.BackColor = Color.LightGray;
-                //notifyIcon1.Icon = Resource1.focusout;
+                notifyIcon1.Icon = Resource1.focusout;
             }
             else
             {
                 this.BackColor = window.Color;
-                //using MemoryStream ms = new MemoryStream(Resource1.focus1);
-                //notifyIcon1.Icon = new Icon(ms);
+                notifyIcon1.Icon = Resource1.focus;
             }
+            currentIcon?.Dispose();
         } catch (Exception ex){
             Program.ErrorLog(ex);
         }
+
 
         int time = 0;
         if (viewTotalTime.Checked)
@@ -104,9 +106,26 @@ public partial class Form1 : Form
         else if (viewSessionTime.Checked)
             time = window.ActiveTimeSession;
 
-        ActiveTimeLabel.Text = (new TimeSpan(0, 0, time)).ToString(@"hh\:mm\:ss");
+        //ActiveTimeLabel.Text = (new TimeSpan(0, 0, time)).ToString(@"hh\:mm\:ss");
+        ActiveTimeLabel.Text = fmt_hms(time);
 
         this.notifyIcon1.Text = $"{this.Text} {ActiveTimeLabel.Text}";
+    }
+
+    static string fmt_hms(int sec)
+    {
+        int h, m, s;
+        (h, s) = divmod(sec, 3600);
+        (m, s) = divmod(s, 60);
+
+        return $"{h:D2}:{m:D2}:{s:D2}";
+    }
+
+    static (int, int) divmod(int a, int b)
+    {
+        int c = a / b;
+        int d = a % b;
+        return (c, d);
     }
 
     
