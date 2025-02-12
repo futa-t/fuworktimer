@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using MemoryPack;
 
 using static fuworktimer.Win32;
 using static fuworktimer.ColorUtil;
-using System.Drawing.Drawing2D;
 
 namespace fuworktimer;
 
@@ -57,25 +52,38 @@ internal class WindowList
             window.ActiveTimeSession = 0;
     }
 
-    internal bool Save(string fileName)
+    internal bool Save(string fileName) => WindowDataStorage.Save(_windowDict.Values, fileName);
+
+    internal void Load(string fileName)
+    {
+        foreach (var data in WindowDataStorage.Load(fileName))
+            _windowDict[data.ProcessName] = data;
+    }
+}
+
+class WindowDataStorage
+{
+    public static bool Save(IEnumerable<WindowData> windowDatas, string fileName)
     {
         try
         {
             List<WindowDataPack> list = [];
 
-            foreach (var item in _windowDict.Values)
+            foreach (var item in windowDatas)
                 list.Add(new WindowDataPack(item.ProcessName, item.Color.ToArgb(), item.ActiveTimeTotal));
 
             File.WriteAllBytes(fileName, MemoryPackSerializer.Serialize(list));
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Program.ErrorLog(ex);
             return false;
         }
+
     }
 
-    internal bool Load(string fileName)
+    public static IEnumerable<WindowData> Load(string fileName)
     {
         List<WindowData> windowDatas = [];
         try
@@ -84,17 +92,17 @@ internal class WindowList
             var datas = MemoryPackSerializer.Deserialize<List<WindowDataPack>>(bytes);
             if (datas != null)
                 foreach (var data in datas)
-                    _windowDict[data.ProcessName] = 
-                        new WindowData(
-                            data.ProcessName,
-                            Color.FromArgb(data.Color),
-                            data.ActiveTime);
-            return true;
+                    windowDatas.Add(
+                            new WindowData(
+                                data.ProcessName,
+                                Color.FromArgb(data.Color),
+                                data.ActiveTime)
+                        );
         }
-        catch
+        catch (Exception ex)
         {
-            return false;
+            Program.ErrorLog(ex);
         }
+        return windowDatas;
     }
-
 }
