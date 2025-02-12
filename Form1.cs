@@ -29,11 +29,16 @@ public partial class Form1 : Form
 
         autoSaveTimer = new(callback: () => Save());
         autoSaveTimer.Start();
-
+#if DEBUG
+        CloseToTaskTray.Checked = false;
+        var f = new Form2(windowList);
+        f.Show();
+#endif
         timer1.Start();
+
     }
 
-    string GetDailySaveFileName()
+    static string GetDailySaveFileName()
     {
         string today = DateTime.Now.ToString("yyMMdd");
 
@@ -203,6 +208,12 @@ public partial class Form1 : Form
         lastActive.Color = dialog.Color;
         UpdateView(lastActive);
         Save();
+    }
+
+    private void OpenStatistics_Click(object sender, EventArgs e)
+    {
+        var f = new Form2(windowList);
+        f.Show();
     }
 }
 

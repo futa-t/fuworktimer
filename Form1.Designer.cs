@@ -45,6 +45,7 @@
             notifyIcon1 = new NotifyIcon(components);
             taskiconMenu = new ContextMenuStrip(components);
             閉じるToolStripMenuItem = new ToolStripMenuItem();
+            OpenStatistics = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             taskiconMenu.SuspendLayout();
             SuspendLayout();
@@ -71,12 +72,12 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.AllowMerge = false;
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, colorChange, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1 });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, colorChange, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, OpenStatistics, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1 });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.ShowCheckMargin = true;
             contextMenuStrip1.ShowImageMargin = false;
             contextMenuStrip1.ShowItemToolTips = false;
-            contextMenuStrip1.Size = new Size(181, 192);
+            contextMenuStrip1.Size = new Size(181, 214);
             // 
             // focusMode
             // 
@@ -168,6 +169,13 @@
             閉じるToolStripMenuItem.Text = "閉じる";
             閉じるToolStripMenuItem.Click += NotifyIconCloseClick;
             // 
+            // OpenStatistics
+            // 
+            OpenStatistics.Name = "OpenStatistics";
+            OpenStatistics.Size = new Size(180, 22);
+            OpenStatistics.Text = "統計";
+            OpenStatistics.Click += OpenStatistics_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -210,5 +218,6 @@
         private ToolStripMenuItem 閉じるToolStripMenuItem1;
         private ToolStripMenuItem CloseToTaskTray;
         private ToolStripMenuItem colorChange;
+        private ToolStripMenuItem OpenStatistics;
     }
 }

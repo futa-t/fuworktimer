@@ -61,6 +61,20 @@ internal static class TimeFormat
         return $"{h:D2}:{m:D2}:{s:D2}";
     }
 
+    internal static string fmt_dhms(int sec)
+    {
+        int d, h, m, s = 0;
+
+        (d, s) = divmod(sec, 60 * 60 * 24);
+        (h, s) = divmod(s, 3600);
+        (m, s) = divmod(s, 60);
+
+        string hms = $"{h:D2}:{m:D2}:{s:D2}";
+        if (d > 0)
+            hms = $"{d}d {hms}";
+        return hms;
+    }
+
     static (int, int) divmod(int a, int b)
     {
         int c = a / b;

@@ -14,6 +14,8 @@ internal class WindowList
 
     public string? FocusWindow { get; set; } = null;
 
+    internal List<WindowData> WindowDataList => _windowDict.Values.ToList();
+
     internal static WindowList FromSaveFile(string fileName)
     {
         WindowList windowList = new();
