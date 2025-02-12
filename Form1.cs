@@ -9,12 +9,14 @@ using static fuworktimer.ColorUtil;
 using static fuworktimer.TimeFormat;
 
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace fuworktimer;
 
 public partial class Form1 : Form
 {
-    private WindowData? currentActive;
+    private string currentActive;
+    WindowData lastActive;
     private AutoSaveTimer autoSaveTimer;
 
     private readonly string appProcName;
@@ -49,68 +51,77 @@ public partial class Form1 : Form
 
     private void timer1_Tick(object sender, EventArgs e)
     {
-        if (GetActioveWindow() is WindowData active)
+        WindowData active = windowList.GetActiveWindowData();
+
+        active.ActiveTimeTotal++;
+        active.ActiveTimeSession++;
+
+        if (active.ProcessName != appProcName)
         {
-            currentActive = active;
-            currentActive.ActiveTimeTotal++;
-            currentActive.ActiveTimeSession++;
+            focusMode.Text = $"フォーカス[{active.ProcessName}]";
+            lastActive = active;
         }
-        UpdateActiveWindow(windowList.GetFocusWindowData() ?? currentActive);
+
+        UpdateView(active);
     }
 
-    WindowData? GetActioveWindow()
-    {
-        WindowData wd = windowList.GetActiveWindwData();
+    void UpdateView(WindowData? wd =null) {
+        wd ??= windowList.GetActiveWindowData();
 
-        if (wd.ProcessName == appProcName) return null;
-
-        return wd;
+        if (windowList.FocusWindow != null)
+            UpdateViewFocusWindow(wd);
+        else if (wd.ProcessName != appProcName)    
+            UpdateViewActiveWindow(wd);
     }
 
-
-    void UpdateActiveWindow(WindowData? window)
+    void UpdateNotifyIcon(bool focus)
     {
-        if (window == null) return;
+        // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
+        // Disposeちゃんとしたら落ちなくなったっぽい？ 様子見 1.0.4.4
+        notifyIcon1.Icon?.Dispose();
+        notifyIcon1.Icon = focus ? Resource1.focus : Resource1.focusout;
+    }
 
-        this.Text = window.ProcessName;
+    void UpdateViewFocusWindow(WindowData aw)
+    {
+        var fw = windowList.GetFocusWindowData();
 
-        if (focusProcName != null)
-            this.Text += "[focus]";
+        if (fw == null) return;
 
-        try
+        this.Text = fw.ProcessName + "[focus]";
+
+        if (fw.ProcessName == aw.ProcessName)
         {
-            // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
-
-            Icon? currentIcon = notifyIcon1.Icon;
-            if (focusProcName != null && focusProcName != currentActive?.ProcessName)
-            {
-                this.BackColor = Color.LightGray;
-                notifyIcon1.Icon = Resource1.focusout;
-            }
-            else
-            {
-                this.BackColor = window.Color;
-                notifyIcon1.Icon = Resource1.focus;
-            }
-            currentIcon?.Dispose();
+            this.BackColor = fw.Color;
+            UpdateNotifyIcon(true);
         }
-        catch (Exception ex)
+        else
         {
-            Program.ErrorLog(ex);
+            this.BackColor = Color.LightGray;
+            UpdateNotifyIcon(false);
         }
+        UpdateTimer(fw);
+    }
 
+    void UpdateViewActiveWindow(WindowData aw)
+    {
+        this.Text = aw.ProcessName;
+        this.BackColor = aw.Color;
+        UpdateTimer(aw);
+    }
 
+    void UpdateTimer(WindowData wd)
+    {
         int time = 0;
         if (viewTotalTime.Checked)
-            time = window.ActiveTimeTotal;
+            time = wd.ActiveTimeTotal;
         else if (viewSessionTime.Checked)
-            time = window.ActiveTimeSession;
+            time = wd.ActiveTimeSession;
 
         ActiveTimeLabel.Text = fmt_hms(time);
 
         this.notifyIcon1.Text = $"{this.Text} {ActiveTimeLabel.Text}";
     }
-
 
     private void ResetEvent(object sender, EventArgs e)
         => windowList.ResetSessionTime();
@@ -140,9 +151,13 @@ public partial class Form1 : Form
     private void focusMode_Click(object sender, EventArgs e)
     {
         if (focusMode.Checked)
-            focusProcName = currentActive?.ProcessName;
+        {
+            windowList.FocusWindow = lastActive?.ProcessName;
+            UpdateView();
+            focusMode.Text = $"フォーカス終了";
+        }
         else
-            focusProcName = null;
+            windowList.FocusWindow = null;
     }
 
     //  https://blog.ch3cooh.jp/entry/20080113/1311501361

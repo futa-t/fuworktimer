@@ -17,7 +17,7 @@ internal class WindowList
 {
     readonly Dictionary<string, WindowData> _windowDict = [];
 
-    public string? FocusWindow { get; set; } = string.Empty;
+    public string? FocusWindow { get; set; } = null;
 
     internal static WindowList FromSaveFile(string fileName)
     {
@@ -32,7 +32,7 @@ internal class WindowList
         return wd;
     }
 
-    internal WindowData GetActiveWindwData()
+    internal WindowData GetActiveWindowData()
     {
         string activeProc = GetActiveWindowProcessName();
 
