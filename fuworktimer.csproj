@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="fuver" />
+    <Exec Command="call postbuild.bat" />
   </Target>
 
 </Project>

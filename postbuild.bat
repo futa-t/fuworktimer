@@ -1,0 +1,1 @@
+fuver || exit /b 0
