@@ -15,6 +15,7 @@
     <StartupObject>fuworktimer.Program</StartupObject>
     <VersionPrefix>1.0.4.4</VersionPrefix>
     <Configurations>Debug;Release</Configurations>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

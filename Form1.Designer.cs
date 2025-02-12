@@ -39,6 +39,7 @@
             viewTotalTime = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             リセットToolStripMenuItem = new ToolStripMenuItem();
+            CloseToTaskTray = new ToolStripMenuItem();
             閉じるToolStripMenuItem1 = new ToolStripMenuItem();
             notifyIcon1 = new NotifyIcon(components);
             taskiconMenu = new ContextMenuStrip(components);
@@ -69,12 +70,12 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.AllowMerge = false;
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, リセットToolStripMenuItem, 閉じるToolStripMenuItem1 });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1 });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.ShowCheckMargin = true;
             contextMenuStrip1.ShowImageMargin = false;
             contextMenuStrip1.ShowItemToolTips = false;
-            contextMenuStrip1.Size = new Size(181, 148);
+            contextMenuStrip1.Size = new Size(181, 170);
             // 
             // focusMode
             // 
@@ -82,7 +83,7 @@
             focusMode.Name = "focusMode";
             focusMode.Size = new Size(180, 22);
             focusMode.Text = "フォーカス";
-            focusMode.Click += focusMode_Click;
+            focusMode.Click += FocusModeClick;
             // 
             // toolStripSeparator2
             // 
@@ -117,6 +118,16 @@
             リセットToolStripMenuItem.Text = "リセット";
             リセットToolStripMenuItem.Click += ResetEvent;
             // 
+            // CloseToTaskTray
+            // 
+            CloseToTaskTray.Checked = true;
+            CloseToTaskTray.CheckOnClick = true;
+            CloseToTaskTray.CheckState = CheckState.Checked;
+            CloseToTaskTray.Name = "CloseToTaskTray";
+            CloseToTaskTray.ShowShortcutKeys = false;
+            CloseToTaskTray.Size = new Size(180, 22);
+            CloseToTaskTray.Text = "タスクトレイに閉じる";
+            // 
             // 閉じるToolStripMenuItem1
             // 
             閉じるToolStripMenuItem1.Name = "閉じるToolStripMenuItem1";
@@ -130,7 +141,7 @@
             notifyIcon1.Icon = (Icon)resources.GetObject("notifyIcon1.Icon");
             notifyIcon1.Text = "fuworktimer";
             notifyIcon1.Visible = true;
-            notifyIcon1.Click += notifyIcon1_Click;
+            notifyIcon1.Click += NotifyIconClick;
             // 
             // taskiconMenu
             // 
@@ -185,5 +196,6 @@
         private ContextMenuStrip taskiconMenu;
         private ToolStripMenuItem 閉じるToolStripMenuItem;
         private ToolStripMenuItem 閉じるToolStripMenuItem1;
+        private ToolStripMenuItem CloseToTaskTray;
     }
 }

@@ -60,7 +60,6 @@ internal static class Program
 
     public static void ErrorLog(Exception ex)
     {
-        // ログ出力しないでおちるし
         string filePath = Path.Combine(Program.AppDir, "error.log");
         try
         {

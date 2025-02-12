@@ -1,28 +1,19 @@
 using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
 
-using MemoryPack;
-
-using static fuworktimer.Win32;
-using static fuworktimer.ColorUtil;
 using static fuworktimer.TimeFormat;
-
-using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace fuworktimer;
 
 public partial class Form1 : Form
 {
-    private string currentActive;
-    WindowData lastActive;
-    private AutoSaveTimer autoSaveTimer;
-
-    private readonly string appProcName;
-    private string? focusProcName;
-
     WindowList windowList;
+    AutoSaveTimer autoSaveTimer;
+
+    WindowData lastActive;
+    readonly string appProcName;
+
+    bool isFocusActive = false;
+    bool CloseTaskTray => CloseToTaskTray.Checked; 
 
     public Form1()
     {
@@ -33,6 +24,8 @@ public partial class Form1 : Form
 
         InitializeComponent();
         windowList = WindowList.FromSaveFile(GetDailySaveFileName());
+
+        lastActive = windowList.GetActiveWindowData();
 
         autoSaveTimer = new(callback: () => Save());
         autoSaveTimer.Start();
@@ -65,21 +58,14 @@ public partial class Form1 : Form
         UpdateView(active);
     }
 
-    void UpdateView(WindowData? wd =null) {
+    void UpdateView(WindowData? wd = null)
+    {
         wd ??= windowList.GetActiveWindowData();
 
         if (windowList.FocusWindow != null)
             UpdateViewFocusWindow(wd);
-        else if (wd.ProcessName != appProcName)    
+        else if (wd.ProcessName != appProcName)
             UpdateViewActiveWindow(wd);
-    }
-
-    void UpdateNotifyIcon(bool focus)
-    {
-        // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
-        // Disposeちゃんとしたら落ちなくなったっぽい？ 様子見 1.0.4.4
-        notifyIcon1.Icon?.Dispose();
-        notifyIcon1.Icon = focus ? Resource1.focus : Resource1.focusout;
     }
 
     void UpdateViewFocusWindow(WindowData aw)
@@ -100,17 +86,17 @@ public partial class Form1 : Form
             this.BackColor = Color.LightGray;
             UpdateNotifyIcon(false);
         }
-        UpdateTimer(fw);
+        UpdateActiveTimer(fw);
     }
 
     void UpdateViewActiveWindow(WindowData aw)
     {
         this.Text = aw.ProcessName;
         this.BackColor = aw.Color;
-        UpdateTimer(aw);
+        UpdateActiveTimer(aw);
     }
 
-    void UpdateTimer(WindowData wd)
+    void UpdateActiveTimer(WindowData wd)
     {
         int time = 0;
         if (viewTotalTime.Checked)
@@ -129,10 +115,12 @@ public partial class Form1 : Form
 
     private void Form1_FormClosing(object? sender, FormClosingEventArgs e)
     {
-#if !DEBUG
-        e.Cancel = true;
-        this.WindowState = FormWindowState.Minimized;
-#endif
+
+        if (CloseTaskTray)
+        {
+            e.Cancel = true;
+            this.WindowState = FormWindowState.Minimized;
+        }
         Save();
     }
 
@@ -148,26 +136,44 @@ public partial class Form1 : Form
         s.Checked = true;
     }
 
-    private void focusMode_Click(object sender, EventArgs e)
+    void SetFocusMode(bool state)
     {
-        if (focusMode.Checked)
+        if (state)
         {
             windowList.FocusWindow = lastActive?.ProcessName;
-            UpdateView();
             focusMode.Text = $"フォーカス終了";
         }
         else
+        {
             windowList.FocusWindow = null;
+            focusMode.Text = $"フォーカス[{lastActive.ProcessName}]";
+        }
+        UpdateView();
     }
+
+    private void FocusModeClick(object sender, EventArgs e)
+        => SetFocusMode(focusMode.Checked);
 
     //  https://blog.ch3cooh.jp/entry/20080113/1311501361
     private void Form1_ClientSizeChanged(object sender, EventArgs e)
     {
-        if (this.WindowState == System.Windows.Forms.FormWindowState.Minimized)
+        if (this.WindowState == FormWindowState.Minimized)
         {
             this.Hide();
             notifyIcon1.Visible = true;
         }
+    }
+
+
+    void UpdateNotifyIcon(bool focus)
+    {
+        // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
+        // Disposeちゃんとしたら落ちなくなったっぽい？ 様子見 1.0.4.4
+        if (focus == isFocusActive) return;
+
+        isFocusActive = focus;
+        notifyIcon1.Icon?.Dispose();
+        notifyIcon1.Icon = focus ? Resource1.focus : Resource1.focusout;
     }
 
     private void NotifyIconCloseClick(object sender, EventArgs e)
@@ -177,7 +183,7 @@ public partial class Form1 : Form
         this.Close();
     }
 
-    private void notifyIcon1_Click(object sender, EventArgs e)
+    private void NotifyIconClick(object sender, EventArgs e)
     {
         if (((MouseEventArgs)e).Button == MouseButtons.Left)
         {
@@ -187,26 +193,5 @@ public partial class Form1 : Form
             this.Activate();
         }
     }
-
-}
-
-
-public class AutoSaveTimer(Action callback)
-{
-    private System.Threading.Timer? _timer;
-    private event Action _callback = callback;
-
-    public void Start()
-    {
-        DateTime now = DateTime.Now;
-        DateTime addHour = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0).AddHours(1);
-        TimeSpan next = addHour - now;
-        this._timer = new(Callback, null, next, TimeSpan.FromHours(1));
-    }
-
-    public void Stop() => this._timer?.Dispose();
-
-    private void Callback(object? state) => Task.Run(this._callback.Invoke);
-
 }
 
