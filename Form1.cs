@@ -13,7 +13,7 @@ public partial class Form1 : Form
     readonly string appProcName;
 
     bool isFocusActive = false;
-    bool CloseTaskTray => CloseToTaskTray.Checked; 
+    bool CloseTaskTray => CloseToTaskTray.Checked;
 
     public Form1()
     {
@@ -51,7 +51,8 @@ public partial class Form1 : Form
 
         if (active.ProcessName != appProcName)
         {
-            focusMode.Text = $"フォーカス[{active.ProcessName}]";
+            focusMode.Text = $"{focusMode.Tag}[{active.ProcessName}]";
+            colorChange.Text = $"{colorChange.Tag}[{active.ProcessName}]";
             lastActive = active;
         }
 
@@ -130,10 +131,11 @@ public partial class Form1 : Form
             return;
 
         foreach (var item in contextMenuStrip1.Items)
-            if (item is ToolStripMenuItem a)
+            if (item is ToolStripMenuItem a && a.Tag?.ToString() == "TimeFmt")
                 a.Checked = s == item;
 
         s.Checked = true;
+        UpdateView(lastActive);
     }
 
     void SetFocusMode(bool state)
@@ -146,7 +148,7 @@ public partial class Form1 : Form
         else
         {
             windowList.FocusWindow = null;
-            focusMode.Text = $"フォーカス[{lastActive.ProcessName}]";
+            focusMode.Text = $"{focusMode.Tag}[{lastActive.ProcessName}]";
         }
         UpdateView();
     }
@@ -192,6 +194,15 @@ public partial class Form1 : Form
                 this.WindowState = FormWindowState.Normal;
             this.Activate();
         }
+    }
+
+    private void ColorChange(object sender, EventArgs e)
+    {
+        var dialog = new ColorDialog();
+        dialog.ShowDialog();
+        lastActive.Color = dialog.Color;
+        UpdateView(lastActive);
+        Save();
     }
 }
 

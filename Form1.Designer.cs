@@ -34,6 +34,7 @@
             ActiveTimeLabel = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             focusMode = new ToolStripMenuItem();
+            colorChange = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
             viewSessionTime = new ToolStripMenuItem();
             viewTotalTime = new ToolStripMenuItem();
@@ -70,20 +71,29 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.AllowMerge = false;
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1 });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, colorChange, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1 });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.ShowCheckMargin = true;
             contextMenuStrip1.ShowImageMargin = false;
             contextMenuStrip1.ShowItemToolTips = false;
-            contextMenuStrip1.Size = new Size(181, 170);
+            contextMenuStrip1.Size = new Size(181, 192);
             // 
             // focusMode
             // 
             focusMode.CheckOnClick = true;
             focusMode.Name = "focusMode";
             focusMode.Size = new Size(180, 22);
+            focusMode.Tag = "フォーカス";
             focusMode.Text = "フォーカス";
             focusMode.Click += FocusModeClick;
+            // 
+            // colorChange
+            // 
+            colorChange.Name = "colorChange";
+            colorChange.Size = new Size(180, 22);
+            colorChange.Tag = "色の変更";
+            colorChange.Text = "色の変更";
+            colorChange.Click += ColorChange;
             // 
             // toolStripSeparator2
             // 
@@ -96,6 +106,7 @@
             viewSessionTime.CheckState = CheckState.Checked;
             viewSessionTime.Name = "viewSessionTime";
             viewSessionTime.Size = new Size(180, 22);
+            viewSessionTime.Tag = "TimeFmt";
             viewSessionTime.Text = "セッション";
             viewSessionTime.Click += ViewTimeChecked;
             // 
@@ -103,6 +114,7 @@
             // 
             viewTotalTime.Name = "viewTotalTime";
             viewTotalTime.Size = new Size(180, 22);
+            viewTotalTime.Tag = "TimeFmt";
             viewTotalTime.Text = "トータル";
             viewTotalTime.Click += ViewTimeChecked;
             // 
@@ -197,5 +209,6 @@
         private ToolStripMenuItem 閉じるToolStripMenuItem;
         private ToolStripMenuItem 閉じるToolStripMenuItem1;
         private ToolStripMenuItem CloseToTaskTray;
+        private ToolStripMenuItem colorChange;
     }
 }
