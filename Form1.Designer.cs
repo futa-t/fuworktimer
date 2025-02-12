@@ -43,11 +43,11 @@
             リセットToolStripMenuItem = new ToolStripMenuItem();
             CloseToTaskTray = new ToolStripMenuItem();
             閉じるToolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
+            AppInfo = new ToolStripMenuItem();
             notifyIcon1 = new NotifyIcon(components);
             taskiconMenu = new ContextMenuStrip(components);
             閉じるToolStripMenuItem = new ToolStripMenuItem();
-            AppInfo = new ToolStripMenuItem();
-            toolStripSeparator3 = new ToolStripSeparator();
             contextMenuStrip1.SuspendLayout();
             taskiconMenu.SuspendLayout();
             SuspendLayout();
@@ -79,13 +79,13 @@
             contextMenuStrip1.ShowCheckMargin = true;
             contextMenuStrip1.ShowImageMargin = false;
             contextMenuStrip1.ShowItemToolTips = false;
-            contextMenuStrip1.Size = new Size(181, 242);
+            contextMenuStrip1.Size = new Size(160, 220);
             // 
             // focusMode
             // 
             focusMode.CheckOnClick = true;
             focusMode.Name = "focusMode";
-            focusMode.Size = new Size(180, 22);
+            focusMode.Size = new Size(159, 22);
             focusMode.Tag = "フォーカス";
             focusMode.Text = "フォーカス";
             focusMode.Click += FocusModeClick;
@@ -93,7 +93,7 @@
             // colorChange
             // 
             colorChange.Name = "colorChange";
-            colorChange.Size = new Size(180, 22);
+            colorChange.Size = new Size(159, 22);
             colorChange.Tag = "色の変更";
             colorChange.Text = "色の変更";
             colorChange.Click += ColorChange;
@@ -101,14 +101,14 @@
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(177, 6);
+            toolStripSeparator2.Size = new Size(156, 6);
             // 
             // viewSessionTime
             // 
             viewSessionTime.Checked = true;
             viewSessionTime.CheckState = CheckState.Checked;
             viewSessionTime.Name = "viewSessionTime";
-            viewSessionTime.Size = new Size(180, 22);
+            viewSessionTime.Size = new Size(159, 22);
             viewSessionTime.Tag = "TimeFmt";
             viewSessionTime.Text = "セッション";
             viewSessionTime.Click += ViewTimeChecked;
@@ -116,7 +116,7 @@
             // viewTotalTime
             // 
             viewTotalTime.Name = "viewTotalTime";
-            viewTotalTime.Size = new Size(180, 22);
+            viewTotalTime.Size = new Size(159, 22);
             viewTotalTime.Tag = "TimeFmt";
             viewTotalTime.Text = "トータル";
             viewTotalTime.Click += ViewTimeChecked;
@@ -124,19 +124,19 @@
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(156, 6);
             // 
             // OpenStatistics
             // 
             OpenStatistics.Name = "OpenStatistics";
-            OpenStatistics.Size = new Size(180, 22);
+            OpenStatistics.Size = new Size(159, 22);
             OpenStatistics.Text = "統計";
             OpenStatistics.Click += OpenStatistics_Click;
             // 
             // リセットToolStripMenuItem
             // 
             リセットToolStripMenuItem.Name = "リセットToolStripMenuItem";
-            リセットToolStripMenuItem.Size = new Size(180, 22);
+            リセットToolStripMenuItem.Size = new Size(159, 22);
             リセットToolStripMenuItem.Text = "リセット";
             リセットToolStripMenuItem.Click += ResetEvent;
             // 
@@ -147,15 +147,27 @@
             CloseToTaskTray.CheckState = CheckState.Checked;
             CloseToTaskTray.Name = "CloseToTaskTray";
             CloseToTaskTray.ShowShortcutKeys = false;
-            CloseToTaskTray.Size = new Size(180, 22);
+            CloseToTaskTray.Size = new Size(159, 22);
             CloseToTaskTray.Text = "タスクトレイに閉じる";
             // 
             // 閉じるToolStripMenuItem1
             // 
             閉じるToolStripMenuItem1.Name = "閉じるToolStripMenuItem1";
-            閉じるToolStripMenuItem1.Size = new Size(180, 22);
+            閉じるToolStripMenuItem1.Size = new Size(159, 22);
             閉じるToolStripMenuItem1.Text = "閉じる";
             閉じるToolStripMenuItem1.Click += NotifyIconCloseClick;
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(156, 6);
+            // 
+            // AppInfo
+            // 
+            AppInfo.Name = "AppInfo";
+            AppInfo.Size = new Size(159, 22);
+            AppInfo.Text = "アプリ情報";
+            AppInfo.Click += AppInfo_Click;
             // 
             // notifyIcon1
             // 
@@ -178,18 +190,6 @@
             閉じるToolStripMenuItem.Text = "閉じる";
             閉じるToolStripMenuItem.Click += NotifyIconCloseClick;
             // 
-            // AppInfo
-            // 
-            AppInfo.Name = "AppInfo";
-            AppInfo.Size = new Size(180, 22);
-            AppInfo.Text = "アプリ情報";
-            AppInfo.Click += AppInfo_Click;
-            // 
-            // toolStripSeparator3
-            // 
-            toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(177, 6);
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -206,7 +206,7 @@
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
-            Text = "fulogger";
+            Text = "fuworktimer";
             TopMost = true;
             FormClosing += Form1_FormClosing;
             ClientSizeChanged += Form1_ClientSizeChanged;

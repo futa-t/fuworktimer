@@ -87,10 +87,6 @@ internal static class Program
         {
             MessageBox.Show("Error writing to log file: " + logEx.Message);
         }
-        finally
-        {
-            MessageBox.Show("Error");
-        }
     }
 }
 
