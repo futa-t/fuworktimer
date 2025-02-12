@@ -13,26 +13,26 @@ using System.Drawing.Drawing2D;
 
 namespace fuworktimer;
 
-internal partial class WindowList
+internal class WindowList
 {
     readonly Dictionary<string, WindowData> _windowDict = [];
 
     public string? FocusWindow { get; set; } = string.Empty;
 
-    internal static WindowList FromDailySaveFile()
+    internal static WindowList FromSaveFile(string fileName)
     {
         WindowList windowList = new();
-        windowList.Load();
+        windowList.Load(fileName);
         return windowList;
     }
 
     internal WindowData? GetWindowData(string processName)
     {
-        _windowDict.TryGetValue(processName, out var wd);
+        _windowDict.TryGetValue(processName, out WindowData? wd);
         return wd;
     }
 
-    internal WindowData GetActiveWindw()
+    internal WindowData GetActiveWindwData()
     {
         string activeProc = GetActiveWindowProcessName();
 
@@ -44,7 +44,7 @@ internal partial class WindowList
         return wd;
     }
 
-    internal WindowData? GetFocusWindow()
+    internal WindowData? GetFocusWindowData()
     {
         if (FocusWindow == null) return null;
 
@@ -57,32 +57,16 @@ internal partial class WindowList
             window.ActiveTimeSession = 0;
     }
 
-}
-
-
-// Data Store
-internal partial class WindowList { 
-    
-    string saveDir = Program.AppDir;
-
-    string DailySaveFileName()
-    {
-        string today = DateTime.Now.ToString("yyMMdd");
-
-        return Path.Combine(saveDir, $"{today}.pack");
-    }
-
-    internal bool Save(string? fileName = null)
+    internal bool Save(string fileName)
     {
         try
         {
-            string fname = fileName ?? DailySaveFileName();
             List<WindowDataPack> list = [];
 
             foreach (var item in _windowDict.Values)
                 list.Add(new WindowDataPack(item.ProcessName, item.Color.ToArgb(), item.ActiveTimeTotal));
 
-            File.WriteAllBytes(fname, MemoryPackSerializer.Serialize(list));
+            File.WriteAllBytes(fileName, MemoryPackSerializer.Serialize(list));
             return true;
         }
         catch (Exception)
@@ -91,13 +75,12 @@ internal partial class WindowList {
         }
     }
 
-    internal bool Load(string? fileName = null)
+    internal bool Load(string fileName)
     {
-        string fname = fileName ?? DailySaveFileName();
         List<WindowData> windowDatas = [];
         try
         {
-            byte[] bytes = File.ReadAllBytes(fname);
+            byte[] bytes = File.ReadAllBytes(fileName);
             var datas = MemoryPackSerializer.Deserialize<List<WindowDataPack>>(bytes);
             if (datas != null)
                 foreach (var data in datas)

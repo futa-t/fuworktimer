@@ -30,13 +30,22 @@ public partial class Form1 : Form
         }
 
         InitializeComponent();
-        windowList = WindowList.FromDailySaveFile();
+        windowList = WindowList.FromSaveFile(GetDailySaveFileName());
 
-        autoSaveTimer = new(callback: () => windowList.Save());
+        autoSaveTimer = new(callback: () => Save());
         autoSaveTimer.Start();
 
         timer1.Start();
     }
+
+    string GetDailySaveFileName()
+    {
+        string today = DateTime.Now.ToString("yyMMdd");
+
+        return Path.Combine(Program.AppDir, $"{today}.pack");
+    }
+
+    bool Save() => windowList.Save(GetDailySaveFileName());
 
     private void timer1_Tick(object sender, EventArgs e)
     {
@@ -46,12 +55,12 @@ public partial class Form1 : Form
             currentActive.ActiveTimeTotal++;
             currentActive.ActiveTimeSession++;
         }
-        UpdateActiveWindow(windowList.GetFocusWindow() ?? currentActive);
+        UpdateActiveWindow(windowList.GetFocusWindowData() ?? currentActive);
     }
 
     WindowData? GetActioveWindow()
     {
-        WindowData wd = windowList.GetActiveWindw();
+        WindowData wd = windowList.GetActiveWindwData();
 
         if (wd.ProcessName == appProcName) return null;
 
@@ -113,7 +122,7 @@ public partial class Form1 : Form
         e.Cancel = true;
         this.WindowState = FormWindowState.Minimized;
 #endif
-        windowList.Save();
+        Save();
     }
 
     private void ViewTimeChecked(object sender, EventArgs e)
@@ -149,7 +158,7 @@ public partial class Form1 : Form
     private void NotifyIconCloseClick(object sender, EventArgs e)
     {
         this.FormClosing -= Form1_FormClosing;
-        windowList.Save();
+        Save();
         this.Close();
     }
 
