@@ -13,11 +13,12 @@
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <ErrorReport>none</ErrorReport>
     <StartupObject>fuworktimer.Program</StartupObject>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
     <Configurations>Debug;Release</Configurations>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
   </PropertyGroup>
@@ -56,6 +57,15 @@
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="call postbuild.bat" />
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <ReadLinesFromFile File="buildversion">
+      <Output TaskParameter="Lines" PropertyName="BuildVersion" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <FileVersion>$(AssemblyVersion) build $(BuildVersion)</FileVersion>
+    </PropertyGroup>
   </Target>
 
 </Project>

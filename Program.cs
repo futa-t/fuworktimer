@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 namespace fuworktimer;
 
@@ -11,6 +12,7 @@ internal static class Program
     {
         try
         {
+            Debug.WriteLine(GetFileVersion());
 
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "fuworktimer";
             string mutexName = $"Global\\{assemblyName}";
@@ -58,6 +60,18 @@ internal static class Program
         }
     }
 
+    public static string? GetFileVersion()
+    {
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        if (assembly == null) return null;
+
+        var attribute = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
+        return attribute?.Version;
+    }
+
+
+
+
     public static void ErrorLog(Exception ex)
     {
         string filePath = Path.Combine(Program.AppDir, "error.log");
@@ -77,5 +91,16 @@ internal static class Program
         {
             MessageBox.Show("Error");
         }
+    }
+}
+
+[AttributeUsage(AttributeTargets.Assembly)]
+public class BuildVersionAttribute : Attribute
+{
+    public string BuildVersion { get; }
+
+    public BuildVersionAttribute(string buildVersion)
+    {
+        BuildVersion = buildVersion;
     }
 }

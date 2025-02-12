@@ -31,8 +31,6 @@ public partial class Form1 : Form
         autoSaveTimer.Start();
 #if DEBUG
         CloseToTaskTray.Checked = false;
-        var f = new Form2(windowList);
-        f.Show();
 #endif
         timer1.Start();
 
@@ -214,6 +212,11 @@ public partial class Form1 : Form
     {
         var f = new Form2(windowList);
         f.Show();
+    }
+
+    private void AppInfo_Click(object sender, EventArgs e)
+    {
+        (new Form3()).Show();
     }
 }
 

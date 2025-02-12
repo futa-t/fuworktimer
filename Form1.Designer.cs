@@ -39,13 +39,15 @@
             viewSessionTime = new ToolStripMenuItem();
             viewTotalTime = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
+            OpenStatistics = new ToolStripMenuItem();
             リセットToolStripMenuItem = new ToolStripMenuItem();
             CloseToTaskTray = new ToolStripMenuItem();
             閉じるToolStripMenuItem1 = new ToolStripMenuItem();
             notifyIcon1 = new NotifyIcon(components);
             taskiconMenu = new ContextMenuStrip(components);
             閉じるToolStripMenuItem = new ToolStripMenuItem();
-            OpenStatistics = new ToolStripMenuItem();
+            AppInfo = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
             contextMenuStrip1.SuspendLayout();
             taskiconMenu.SuspendLayout();
             SuspendLayout();
@@ -72,12 +74,12 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.AllowMerge = false;
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, colorChange, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, OpenStatistics, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1 });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { focusMode, colorChange, toolStripSeparator2, viewSessionTime, viewTotalTime, toolStripSeparator1, OpenStatistics, リセットToolStripMenuItem, CloseToTaskTray, 閉じるToolStripMenuItem1, toolStripSeparator3, AppInfo });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.ShowCheckMargin = true;
             contextMenuStrip1.ShowImageMargin = false;
             contextMenuStrip1.ShowItemToolTips = false;
-            contextMenuStrip1.Size = new Size(181, 214);
+            contextMenuStrip1.Size = new Size(181, 242);
             // 
             // focusMode
             // 
@@ -124,6 +126,13 @@
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(177, 6);
             // 
+            // OpenStatistics
+            // 
+            OpenStatistics.Name = "OpenStatistics";
+            OpenStatistics.Size = new Size(180, 22);
+            OpenStatistics.Text = "統計";
+            OpenStatistics.Click += OpenStatistics_Click;
+            // 
             // リセットToolStripMenuItem
             // 
             リセットToolStripMenuItem.Name = "リセットToolStripMenuItem";
@@ -169,12 +178,17 @@
             閉じるToolStripMenuItem.Text = "閉じる";
             閉じるToolStripMenuItem.Click += NotifyIconCloseClick;
             // 
-            // OpenStatistics
+            // AppInfo
             // 
-            OpenStatistics.Name = "OpenStatistics";
-            OpenStatistics.Size = new Size(180, 22);
-            OpenStatistics.Text = "統計";
-            OpenStatistics.Click += OpenStatistics_Click;
+            AppInfo.Name = "AppInfo";
+            AppInfo.Size = new Size(180, 22);
+            AppInfo.Text = "アプリ情報";
+            AppInfo.Click += AppInfo_Click;
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(177, 6);
             // 
             // Form1
             // 
@@ -219,5 +233,7 @@
         private ToolStripMenuItem CloseToTaskTray;
         private ToolStripMenuItem colorChange;
         private ToolStripMenuItem OpenStatistics;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem AppInfo;
     }
 }
