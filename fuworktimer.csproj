@@ -53,4 +53,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="fuver" />
+  </Target>
+
 </Project>

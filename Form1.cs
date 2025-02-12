@@ -14,13 +14,13 @@ namespace fuworktimer;
 
 public partial class Form1 : Form
 {
-    readonly Dictionary<string, WindowData> windowList = [];
-
     private WindowData? currentActive;
     private AutoSaveTimer autoSaveTimer;
 
     private readonly string appProcName;
     private string? focusProcName;
+
+    WindowList windowList;
 
     public Form1()
     {
@@ -30,12 +30,11 @@ public partial class Form1 : Form
         }
 
         InitializeComponent();
+        windowList = WindowList.FromDailySaveFile();
 
-        LoadWindowList();
-        autoSaveTimer = new(callback: SaveWindowList);
+        autoSaveTimer = new(callback: () => windowList.Save());
         autoSaveTimer.Start();
 
-        SaveWindowList();
         timer1.Start();
     }
 
@@ -47,30 +46,18 @@ public partial class Form1 : Form
             currentActive.ActiveTimeTotal++;
             currentActive.ActiveTimeSession++;
         }
-        UpdateActiveWindow(GetFocusWindow() ?? currentActive);
+        UpdateActiveWindow(windowList.GetFocusWindow() ?? currentActive);
     }
 
     WindowData? GetActioveWindow()
     {
-        string activeWindowProcName = GetActiveWindowProcessName();
+        WindowData wd = windowList.GetActiveWindw();
 
-        if (activeWindowProcName == appProcName) return null;
+        if (wd.ProcessName == appProcName) return null;
 
-        if (!windowList.TryGetValue(activeWindowProcName, out var activeWindow))
-        {
-            activeWindow = new WindowData(activeWindowProcName, GetColorFromText(activeWindowProcName));
-            windowList[activeWindowProcName] = activeWindow;
-        }
-        return activeWindow;
+        return wd;
     }
 
-    WindowData? GetFocusWindow()
-    {
-        if (focusProcName == null) return null;
-
-        windowList.TryGetValue(focusProcName, out var focusWindow);
-        return focusWindow;
-    }
 
     void UpdateActiveWindow(WindowData? window)
     {
@@ -117,49 +104,8 @@ public partial class Form1 : Form
 
 
     private void ResetEvent(object sender, EventArgs e)
-    {
-        foreach (var window in windowList.Values)
-            window.ActiveTimeSession = 0;
-    }
+        => windowList.ResetSessionTime();
 
-
-    private static string DailySaveFile()
-    {
-        string today = DateTime.Now.ToString("yyMMdd");
-
-        return Path.Combine(Program.AppDir, $"{today}.pack");
-    }
-
-    public void SaveWindowList()
-    {
-        string fname = DailySaveFile();
-        Debug.WriteLine($"Save as {fname}");
-        List<WindowDataPack> list = [];
-
-        foreach (var item in windowList.Values)
-            list.Add(new WindowDataPack(item.ProcessName, item.Color.ToArgb(), item.ActiveTimeTotal));
-
-        File.WriteAllBytes(fname, MemoryPackSerializer.Serialize(list));
-    }
-
-    public void LoadWindowList()
-    {
-        try
-        {
-            string fname = DailySaveFile();
-            if (!File.Exists(fname)) return;
-
-            var data = MemoryPackSerializer.Deserialize<List<WindowDataPack>>(File.ReadAllBytes(fname));
-            if (data == null) return;
-
-            foreach (var d in data)
-                windowList[d.ProcessName] = new WindowData(d.ProcessName, Color.FromArgb(d.Color), d.ActiveTime);
-        }
-        catch
-        {
-            return;
-        }
-    }
 
     private void Form1_FormClosing(object? sender, FormClosingEventArgs e)
     {
@@ -167,7 +113,7 @@ public partial class Form1 : Form
         e.Cancel = true;
         this.WindowState = FormWindowState.Minimized;
 #endif
-        SaveWindowList();
+        windowList.Save();
     }
 
     private void ViewTimeChecked(object sender, EventArgs e)
@@ -203,7 +149,7 @@ public partial class Form1 : Form
     private void NotifyIconCloseClick(object sender, EventArgs e)
     {
         this.FormClosing -= Form1_FormClosing;
-        SaveWindowList();
+        windowList.Save();
         this.Close();
     }
 
