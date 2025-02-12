@@ -6,6 +6,8 @@ using MemoryPack;
 
 using static fuworktimer.Win32;
 using static fuworktimer.ColorUtil;
+using static fuworktimer.TimeFormat;
+
 using System.Xml.Serialization;
 
 namespace fuworktimer;
@@ -83,7 +85,7 @@ public partial class Form1 : Form
         {
             // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
 
-            Icon? currentIcon = notifyIcon1.Icon; 
+            Icon? currentIcon = notifyIcon1.Icon;
             if (focusProcName != null && focusProcName != currentActive?.ProcessName)
             {
                 this.BackColor = Color.LightGray;
@@ -95,7 +97,9 @@ public partial class Form1 : Form
                 notifyIcon1.Icon = Resource1.focus;
             }
             currentIcon?.Dispose();
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             Program.ErrorLog(ex);
         }
 
@@ -106,29 +110,11 @@ public partial class Form1 : Form
         else if (viewSessionTime.Checked)
             time = window.ActiveTimeSession;
 
-        //ActiveTimeLabel.Text = (new TimeSpan(0, 0, time)).ToString(@"hh\:mm\:ss");
         ActiveTimeLabel.Text = fmt_hms(time);
 
         this.notifyIcon1.Text = $"{this.Text} {ActiveTimeLabel.Text}";
     }
 
-    static string fmt_hms(int sec)
-    {
-        int h, m, s;
-        (h, s) = divmod(sec, 3600);
-        (m, s) = divmod(s, 60);
-
-        return $"{h:D2}:{m:D2}:{s:D2}";
-    }
-
-    static (int, int) divmod(int a, int b)
-    {
-        int c = a / b;
-        int d = a % b;
-        return (c, d);
-    }
-
-    
 
     private void ResetEvent(object sender, EventArgs e)
     {
@@ -231,31 +217,9 @@ public partial class Form1 : Form
             this.Activate();
         }
     }
+
 }
 
-
-class WindowData(string processName, Color color, int activeTime = 0)
-{
-    public string ProcessName { get; } = processName;
-    public Color Color { get; } = color;
-    public int ActiveTimeTotal { get; set; } = activeTime;
-    public int ActiveTimeSession { get; set; } = 0;
-}
-
-[MemoryPackable]
-public partial class WindowDataPack
-{
-    public string ProcessName { get; set; }
-    public int Color { get; set; }
-    public int ActiveTime { get; set; }
-
-    public WindowDataPack(string processName, int color, int activeTime)
-    {
-        ProcessName = processName;
-        Color = color;
-        ActiveTime = activeTime;
-    }
-}
 
 public class AutoSaveTimer(Action callback)
 {

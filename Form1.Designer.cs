@@ -74,53 +74,53 @@
             contextMenuStrip1.ShowCheckMargin = true;
             contextMenuStrip1.ShowImageMargin = false;
             contextMenuStrip1.ShowItemToolTips = false;
-            contextMenuStrip1.Size = new Size(119, 126);
+            contextMenuStrip1.Size = new Size(181, 148);
             // 
             // focusMode
             // 
             focusMode.CheckOnClick = true;
             focusMode.Name = "focusMode";
-            focusMode.Size = new Size(118, 22);
+            focusMode.Size = new Size(180, 22);
             focusMode.Text = "フォーカス";
             focusMode.Click += focusMode_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(115, 6);
+            toolStripSeparator2.Size = new Size(177, 6);
             // 
             // viewSessionTime
             // 
             viewSessionTime.Checked = true;
             viewSessionTime.CheckState = CheckState.Checked;
             viewSessionTime.Name = "viewSessionTime";
-            viewSessionTime.Size = new Size(118, 22);
+            viewSessionTime.Size = new Size(180, 22);
             viewSessionTime.Text = "セッション";
             viewSessionTime.Click += ViewTimeChecked;
             // 
             // viewTotalTime
             // 
             viewTotalTime.Name = "viewTotalTime";
-            viewTotalTime.Size = new Size(118, 22);
+            viewTotalTime.Size = new Size(180, 22);
             viewTotalTime.Text = "トータル";
             viewTotalTime.Click += ViewTimeChecked;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(115, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // リセットToolStripMenuItem
             // 
             リセットToolStripMenuItem.Name = "リセットToolStripMenuItem";
-            リセットToolStripMenuItem.Size = new Size(118, 22);
+            リセットToolStripMenuItem.Size = new Size(180, 22);
             リセットToolStripMenuItem.Text = "リセット";
             リセットToolStripMenuItem.Click += ResetEvent;
             // 
             // 閉じるToolStripMenuItem1
             // 
             閉じるToolStripMenuItem1.Name = "閉じるToolStripMenuItem1";
-            閉じるToolStripMenuItem1.Size = new Size(118, 22);
+            閉じるToolStripMenuItem1.Size = new Size(180, 22);
             閉じるToolStripMenuItem1.Text = "閉じる";
             閉じるToolStripMenuItem1.Click += NotifyIconCloseClick;
             // 

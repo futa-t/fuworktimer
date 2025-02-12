@@ -4,7 +4,7 @@ using System.Text;
 
 namespace fuworktimer;
 
-public static class ColorUtil
+internal static class ColorUtil
 {
     public static Color GetColorFromText(string text)
     {
@@ -46,5 +46,25 @@ public static class ColorUtil
             _ when h <= 360 => Color.FromArgb(max, min, (int)(((360f - h) / 60f) * m + min)),
             _ => Color.White
         };
+    }
+}
+
+internal static class TimeFormat
+{
+    internal static string fmt_hms(int sec)
+    {
+        int h, m, s = 0;
+
+        (h, s) = divmod(sec, 3600);
+        (m, s) = divmod(s, 60);
+
+        return $"{h:D2}:{m:D2}:{s:D2}";
+    }
+
+    static (int, int) divmod(int a, int b)
+    {
+        int c = a / b;
+        int d = a % b;
+        return (c, d);
     }
 }
