@@ -12,7 +12,7 @@ public partial class Form1 : Form
     WindowData lastActive;
     readonly string appProcName;
 
-    bool isFocusActive = false;
+    bool? isFocusActive = null;
     bool CloseTaskTray => CloseToTaskTray.Checked;
 
     public Form1()
@@ -54,7 +54,8 @@ public partial class Form1 : Form
 
         if (active.ProcessName != appProcName)
         {
-            focusMode.Text = $"{focusMode.Tag}[{active.ProcessName}]";
+            if (windowList.FocusWindow == null)
+                focusMode.Text = $"{focusMode.Tag}[{active.ProcessName}]";
             colorChange.Text = $"{colorChange.Tag}[{active.ProcessName}]";
             lastActive = active;
         }
@@ -152,8 +153,10 @@ public partial class Form1 : Form
         {
             windowList.FocusWindow = null;
             focusMode.Text = $"{focusMode.Tag}[{lastActive.ProcessName}]";
+            isFocusActive = null;
+            UpdateNotifyIcon(true);
         }
-        UpdateView();
+        UpdateView(lastActive);
     }
 
     private void FocusModeClick(object sender, EventArgs e)
@@ -170,15 +173,19 @@ public partial class Form1 : Form
     }
 
 
-    void UpdateNotifyIcon(bool focus)
+    void UpdateNotifyIcon(bool? focus)
     {
         // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
         // Disposeちゃんとしたら落ちなくなったっぽい？ 様子見 1.0.4.4
         if (focus == isFocusActive) return;
 
         isFocusActive = focus;
+        
         notifyIcon1.Icon?.Dispose();
-        notifyIcon1.Icon = focus ? Resource1.focus : Resource1.focusout;
+        if (focus is bool f)
+            notifyIcon1.Icon = f ? Resource1.focus : Resource1.focusout;
+        else
+            notifyIcon1.Icon = Resource1.focus;
     }
 
     private void NotifyIconCloseClick(object sender, EventArgs e)
