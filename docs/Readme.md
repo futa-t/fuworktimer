@@ -1,15 +1,17 @@
 # fuworktimer
+[![GitHub Release](https://img.shields.io/github/release/futa-t/fuworktimer.svg?style=flat)](https://github.com/futa-t/fuworktimer/releases/latest/)  
+
 ## 目次
-- [機能](#kinou)
-- [動作環境](#spec)
-- [ダウンロード](#download)
-- [確認してる不具合](#bug)
-- [今後実装しようと思ってるもの](#feature)
+- [機能](#機能)
+- [動作環境](#動作環境)
+- [ダウンロード](#ダウンロード)
+- [確認してる不具合](#確認してる不具合)
+- [今後実装しようと思ってるもの](#今後実装しようと思ってるもの)
 
 
-## <p id="kinou">機能</p>
+## 機能
 #### メイン画面
-![基本アプリ画面](assets/kidou.png)
+![基本アプリ画面](./assets/kidou.png)
 1. 現在アクティブなウィンドウのプロセス名が表示されます。
 1. 現在アクティブなウィンドウのアクティブ時間が表示されます。  
 右クリックでメニューが開きます。
@@ -17,9 +19,9 @@
 #### メニュー
 各種設定などができます。  
 
-![右クリックメニュー](assets/context.png)
+![右クリックメニュー](./assets/context.png)
 - フォーカス[プロセス名] / フォーカス終了  
-    [フォーカスモード](#focus)を切り替えます
+    [フォーカスモード](#フォーカスモード)を切り替えます
     
 - 色の変更[プロセス名]  
     新しいプロセスが登録される際自動で背景色が生成されます。任意の色を設定したい場合にはこの機能を使ってください。
@@ -45,9 +47,9 @@
 #### 統計ウィンドウ
 登録されいているプロセスの累計アクティブ時間の一覧を確認できます。
 
-![統計ウィンドウ](assets/toukei.png)
+![統計ウィンドウ](./assets/toukei.png)
 
-#### <p id="focus">フォーカスモード</p>
+#### フォーカスモード
 特定のウィンドウで集中して作業したいときのモードです。  
 
 プロセス名に追加で`[focus]`がつきます。  
@@ -55,31 +57,31 @@
 設定したウィンドウ以外がアクティブな間はカウントが停止し背景がグレーになります。
 
 アクティブ時  
-![フォーカスモードアクティイブ時](assets/focus.png)  
+![フォーカスモードアクティイブ時](./assets/focus.png)  
 
 非アクティブ時  
-![フォーカスモード非アクティイブ時](assets/focusout.png)  
+![フォーカスモード非アクティイブ時](./assets/focusout.png)  
 
 #### タスクトレイ
 アプリ起動後タスクトレイに常駐します。マウスホバーで現在の情報が表示されれます。  
-![タスクトレイアイコンとマウスホバーによる情報表示](assets/tasktray.png)  
+![タスクトレイアイコンとマウスホバーによる情報表示](./assets/tasktray.png)  
 
 フォーカスモード中は非アクティブ時にアイコンが変化します。  
-![非アクティブ時タスクトレイアイコン](assets/tasktrayoutfocus.png)  
+![非アクティブ時タスクトレイアイコン](./assets/tasktrayoutfocus.png)  
 
-## <p id="spec">動作環境</p>
+## 動作環境
 動作確認ができている環境は以下です。
 - Windows11
 - [.NET 9.0 Desktop Runtime](https://dotnet.microsoft.com/ja-jp/download/dotnet/thank-you/runtime-desktop-9.0.2-windows-x64-installer)
 
-## <p id="download">ダウンロード
+## ダウンロード
 [リリース](https://github.com/futa-t/fuworktimer/releases/latest/)から実行ファイル(fuworktimer.exe)を取得してください。  
 SmartScreenの保護がでます。不安ならソースに目を通してから実行してください。
 
-## <p id="bug">確認してる不具合</p>
+## 確認してる不具合
 - 累計時間がアプリを終了するタイミングによって日付が変わったあと引きつがれない。
 
-## <p id="feature">今後実装しようと思ってるもの</p>
+## 今後実装しようと思ってるもの
 - 日毎や月毎でのセッション
 - プロセス名ではなくウィンドウタイトルなどによる時間の記録
 - 記録しないウィンドウの設定
