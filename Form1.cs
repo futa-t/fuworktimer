@@ -175,8 +175,6 @@ public partial class Form1 : Form
 
     void UpdateNotifyIcon(bool? focus)
     {
-        // どうやらリソースからのアイコンの取得で例外吐いて落ちることがあるっぽいので経過観察
-        // Disposeちゃんとしたら落ちなくなったっぽい？ 様子見 1.0.4.4
         if (focus == isFocusActive) return;
 
         isFocusActive = focus;
