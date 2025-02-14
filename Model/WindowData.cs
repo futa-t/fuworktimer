@@ -1,6 +1,6 @@
 ﻿using MemoryPack;
 
-namespace fuworktimer;
+namespace fuworktimer.Model;
 
 internal class WindowData(string processName, Color color, int activeTime = 0)
 {

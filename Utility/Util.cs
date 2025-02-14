@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace fuworktimer;
+namespace fuworktimer.Utility;
 
 internal static class ColorUtil
 {
@@ -38,12 +38,12 @@ internal static class ColorUtil
 
         return h switch
         {
-            _ when h <= 60 => Color.FromArgb(max, (int)((h / 60f) * m + min), min),
-            _ when h <= 120 => Color.FromArgb((int)(((120f - h) / 60f) * m + min), max, min),
-            _ when h <= 180 => Color.FromArgb(min, max, (int)(((h - 120f) / 60f) * m + min)),
-            _ when h <= 240 => Color.FromArgb(min, (int)(((240f - h) / 60f) * m + min), max),
-            _ when h <= 300 => Color.FromArgb((int)(((h - 240f) / 60f) * m + min), min, max),
-            _ when h <= 360 => Color.FromArgb(max, min, (int)(((360f - h) / 60f) * m + min)),
+            _ when h <= 60 => Color.FromArgb(max, (int)(h / 60f * m + min), min),
+            _ when h <= 120 => Color.FromArgb((int)((120f - h) / 60f * m + min), max, min),
+            _ when h <= 180 => Color.FromArgb(min, max, (int)((h - 120f) / 60f * m + min)),
+            _ when h <= 240 => Color.FromArgb(min, (int)((240f - h) / 60f * m + min), max),
+            _ when h <= 300 => Color.FromArgb((int)((h - 240f) / 60f * m + min), min, max),
+            _ when h <= 360 => Color.FromArgb(max, min, (int)((360f - h) / 60f * m + min)),
             _ => Color.White
         };
     }

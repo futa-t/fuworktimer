@@ -1,4 +1,4 @@
-﻿namespace fuworktimer;
+﻿namespace fuworktimer.Model;
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -8,17 +8,17 @@ using System.Text;
 public static class Win32
 {
     [DllImport("user32.dll")]
-    private static extern IntPtr GetForegroundWindow();
+    private static extern nint GetForegroundWindow();
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-    private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+    private static extern int GetWindowText(nint hWnd, StringBuilder lpString, int nMaxCount);
 
     [DllImport("user32.dll")]
-    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+    private static extern uint GetWindowThreadProcessId(nint hWnd, out uint processId);
 
     public static string GetActiveWindowText()
     {
-        IntPtr hWnd = GetForegroundWindow();
+        nint hWnd = GetForegroundWindow();
         int nMaxCount = 256;
         StringBuilder lpString = new StringBuilder(nMaxCount);
         GetWindowText(hWnd, lpString, nMaxCount);
@@ -27,7 +27,7 @@ public static class Win32
 
     public static string GetActiveWindowProcessName()
     {
-        IntPtr hWnd = GetForegroundWindow();
+        nint hWnd = GetForegroundWindow();
         GetWindowThreadProcessId(hWnd, out uint processId);
         try
         {

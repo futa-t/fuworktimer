@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 using MemoryPack;
 
-using static fuworktimer.Win32;
-using static fuworktimer.ColorUtil;
+using static fuworktimer.Model.Win32;
+using static fuworktimer.Utility.ColorUtil;
 
-namespace fuworktimer;
+namespace fuworktimer.Model;
 
 internal class WindowList
 {

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace fuworktimer;
+namespace fuworktimer.Model;
 
 internal class AutoSaveTimer(Action callback)
 {
@@ -16,12 +12,12 @@ internal class AutoSaveTimer(Action callback)
         DateTime now = DateTime.Now;
         DateTime addHour = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0).AddHours(1);
         TimeSpan next = addHour - now;
-        this._timer = new(Callback, null, next, TimeSpan.FromHours(1));
+        _timer = new(Callback, null, next, TimeSpan.FromHours(1));
     }
 
-    public void Stop() => this._timer?.Dispose();
+    public void Stop() => _timer?.Dispose();
 
-    private void Callback(object? state) => Task.Run(this._callback.Invoke);
+    private void Callback(object? state) => Task.Run(_callback.Invoke);
 
 }
 

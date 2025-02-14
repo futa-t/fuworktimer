@@ -2,11 +2,13 @@
 using System.Text;
 using System.Windows.Forms;
 
-using static fuworktimer.TimeFormat;
+using fuworktimer.Model;
+
+using static fuworktimer.Utility.TimeFormat;
 
 namespace fuworktimer;
 
-internal partial class Form2 : Form
+internal partial class Statistics : Form
 {
     WindowList _windowList;
 
@@ -16,7 +18,7 @@ internal partial class Form2 : Form
 
     Dictionary<string, Label> procTotalTimeLabel = [];
 
-    public Form2(WindowList windowList)
+    public Statistics(WindowList windowList)
     {
         _windowList = windowList;
         InitializeComponent();

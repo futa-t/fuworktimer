@@ -1,6 +1,8 @@
 using System.Diagnostics;
 
-using static fuworktimer.TimeFormat;
+using fuworktimer.Model;
+
+using static fuworktimer.Utility.TimeFormat;
 
 namespace fuworktimer;
 
@@ -215,7 +217,7 @@ public partial class Form1 : Form
 
     private void OpenStatistics_Click(object sender, EventArgs e)
     {
-        var f = new Form2(windowList);
+        var f = new Statistics(windowList);
         f.Show();
     }
 
