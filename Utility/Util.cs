@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace fuworktimer.Utility;
 
@@ -82,3 +84,16 @@ internal static class TimeFormat
         return (c, d);
     }
 }
+
+public class JsonExtentions
+{
+    public static readonly JsonSerializerOptions JsonDefaultOption = new()
+    {
+        WriteIndented = true,
+        IndentSize = 4,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
+}
+

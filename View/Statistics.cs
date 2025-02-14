@@ -47,10 +47,10 @@ internal partial class Statistics : Form
 
     void UpdateView()
     {
-        foreach (var wd in _windowList.WindowDataList.Where(wd => wd.ActiveTimeTotal > 0).OrderByDescending(w => w.ActiveTimeTotal))
+        foreach (var wd in _windowList.WindowDataList.Where(wd => wd.TotalTime > 0).OrderByDescending(w => w.TotalTime))
         {
             if (procTotalTimeLabel.TryGetValue(wd.ProcessName, out var ltotaltime))
-                ltotaltime.Text = fmt_dhms(wd.ActiveTimeTotal);
+                ltotaltime.Text = fmt_dhms(wd.TotalTime);
             else
                 AddControl(wd);
         }
@@ -67,7 +67,7 @@ internal partial class Statistics : Form
         panel.Height = lprocname.Height + 8;
         panel.Controls.Add(lprocname);
 
-        var ltotaltime = new Label { Text = fmt_dhms(wd.ActiveTimeTotal), Location = new(10, 0), Font = new(new FontFamily("メイリオ"), 14), AutoSize = true, TextAlign = ContentAlignment.MiddleLeft, Dock = DockStyle.Fill };
+        var ltotaltime = new Label { Text = fmt_dhms(wd.TotalTime), Location = new(10, 0), Font = new(new FontFamily("メイリオ"), 14), AutoSize = true, TextAlign = ContentAlignment.MiddleLeft, Dock = DockStyle.Fill };
         procTotalTimeLabel[wd.ProcessName] = ltotaltime;
 
         tableLayoutPanel1.RowCount++;

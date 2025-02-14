@@ -51,8 +51,7 @@ public partial class Form1 : Form
     {
         WindowData active = windowList.GetActiveWindowData();
 
-        active.ActiveTimeTotal++;
-        active.ActiveTimeSession++;
+        active.AddActiveTime();
 
         if (active.ProcessName != appProcName)
         {
@@ -81,7 +80,7 @@ public partial class Form1 : Form
 
         if (fw == null) return;
 
-        this.Text = fw.ProcessName + "[focus]";
+        this.Text = fw.DisplayName + "[focus]";
 
         if (fw.ProcessName == aw.ProcessName)
         {
@@ -98,7 +97,7 @@ public partial class Form1 : Form
 
     void UpdateViewActiveWindow(WindowData aw)
     {
-        this.Text = aw.ProcessName;
+        this.Text = aw.DisplayName;
         this.BackColor = aw.Color;
         UpdateActiveTimer(aw);
     }
@@ -107,9 +106,9 @@ public partial class Form1 : Form
     {
         int time = 0;
         if (viewTotalTime.Checked)
-            time = wd.ActiveTimeTotal;
+            time = wd.TotalTime;
         else if (viewSessionTime.Checked)
-            time = wd.ActiveTimeSession;
+            time = wd.SessionTime;
 
         ActiveTimeLabel.Text = fmt_hms(time);
 

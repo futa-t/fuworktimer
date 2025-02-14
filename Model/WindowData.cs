@@ -1,27 +1,55 @@
-﻿using MemoryPack;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
+using static fuworktimer.Utility.ColorUtil;
+using static fuworktimer.Utility.JsonExtentions;
 namespace fuworktimer.Model;
 
-internal class WindowData(string processName, Color color, int activeTime = 0)
+ 
+public class WindowData
 {
-    public string ProcessName { get; } = processName;
-    public Color Color { get; set; } = color;
-    public int ActiveTimeTotal { get; set; } = activeTime;
-    public int ActiveTimeSession { get; set; } = 0;
-}
+    public string ProcessName { get; init; } 
+    public string DisplayName { get; set; }
+    [JsonIgnore]
+    public Color Color { get; set; }
+    public int IntColor { get => Color.ToArgb(); set => Color = Color.FromArgb(value); }
 
-[MemoryPackable]
-public partial class WindowDataPack
-{
-    public string ProcessName { get; set; }
-    public int Color { get; set; }
-    public int ActiveTime { get; set; }
+    public int TotalTime { get; set; }
 
-    public WindowDataPack(string processName, int color, int activeTime)
+    [JsonIgnore]
+    public int SessionTime { get; set; } = 0;
+
+    public WindowData(string processName, string displayName, Color color, int activeTimeTotal = 0)
     {
-        ProcessName = processName;
-        Color = color;
-        ActiveTime = activeTime;
+        this.ProcessName = processName;
+        this.DisplayName = displayName;
+        this.Color = color;
+        this.TotalTime = activeTimeTotal;
+    }
+
+    [JsonConstructor]
+    public WindowData(string processName, string displayName, int activeTimeTotal)
+    {
+        this.ProcessName = processName;
+        this.DisplayName = displayName;
+        // ColorはIntColorで設定される
+        this.TotalTime = activeTimeTotal;
+    }
+
+    public static WindowData FromProcessInfo(ProcessInfo process)
+        => new(process.ProcessName,process.Description, GetColorFromText(process.Description));
+
+    public string ToJson()
+        => JsonSerializer.Serialize(this, JsonDefaultOption);
+
+    public static WindowData? FromJson(string jsonString)
+        => JsonSerializer.Deserialize<WindowData>(jsonString, JsonDefaultOption);
+
+    public void AddActiveTime(int sec = 1)
+    {
+        SessionTime += sec;
+        TotalTime += sec;
     }
 }
+
 

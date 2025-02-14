@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using MemoryPack;
 
@@ -29,15 +30,24 @@ internal class WindowList
         return wd;
     }
 
+    internal WindowData GetActiveWindow()
+    {
+        var activeProc = GetActiveWindowProcessInfo();
+        if (activeProc == null) return new ("unknown", "unknown", Color.White);
+
+        return WindowData.FromProcessInfo(activeProc);
+    }
+
     internal WindowData GetActiveWindowData()
     {
-        string activeProc = GetActiveWindowProcessName();
+        WindowData active = GetActiveWindow();
 
-        if (GetWindowData(activeProc) is not WindowData wd)
+        if(GetWindowData(active.ProcessName) is not WindowData wd)
         {
-            wd = new WindowData(activeProc, GetColorFromText(activeProc));
-            _windowDict[activeProc] = wd;
+            wd = active;
+            _windowDict[active.ProcessName] = active;
         }
+
         return wd;
     }
 
@@ -51,7 +61,7 @@ internal class WindowList
     internal void ResetSessionTime()
     {
         foreach (var window in _windowDict.Values)
-            window.ActiveTimeSession = 0;
+            window.SessionTime = 0;
     }
 
     internal bool Save(string fileName) => WindowDataStorage.Save(_windowDict.Values, fileName);
@@ -69,10 +79,10 @@ class WindowDataStorage
     {
         try
         {
-            List<WindowDataPack> list = [];
+            List<string> list = [];
 
             foreach (var item in windowDatas)
-                list.Add(new WindowDataPack(item.ProcessName, item.Color.ToArgb(), item.ActiveTimeTotal));
+                list.Add(item.ToJson());
 
             File.WriteAllBytes(fileName, MemoryPackSerializer.Serialize(list));
             return true;
@@ -91,15 +101,11 @@ class WindowDataStorage
         try
         {
             byte[] bytes = File.ReadAllBytes(fileName);
-            var datas = MemoryPackSerializer.Deserialize<List<WindowDataPack>>(bytes);
+            var datas = MemoryPackSerializer.Deserialize<List<string>>(bytes);
             if (datas != null)
                 foreach (var data in datas)
-                    windowDatas.Add(
-                            new WindowData(
-                                data.ProcessName,
-                                Color.FromArgb(data.Color),
-                                data.ActiveTime)
-                        );
+                    if (WindowData.FromJson(data) is WindowData wd) 
+                        windowDatas.Add(wd);
         }
         catch (Exception ex)
         {

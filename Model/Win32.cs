@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
+public record ProcessInfo(string ProcessName, string Description, string FilePath);
+
 public static class Win32
 {
     [DllImport("user32.dll")]
@@ -25,19 +27,22 @@ public static class Win32
         return lpString.ToString();
     }
 
-    public static string GetActiveWindowProcessName()
+    public static ProcessInfo? GetActiveWindowProcessInfo()
     {
-        nint hWnd = GetForegroundWindow();
-        GetWindowThreadProcessId(hWnd, out uint processId);
         try
         {
-            Process proc = Process.GetProcessById((int)processId);
-            return proc.ProcessName;
+            nint hWnd = GetForegroundWindow();
+            GetWindowThreadProcessId(hWnd, out uint processId);
+            using Process proc = Process.GetProcessById((int)processId);
+            var pm = proc.MainModule;
+            string description = pm?.FileVersionInfo?.FileDescription ?? proc.ProcessName;
+            string filePath = pm?.FileName ?? String.Empty;
+            return new ProcessInfo(proc.ProcessName, description, filePath);
         }
         catch
         {
-            return "Unknown";
+            return null;
         }
-    }
 
+    }
 }
