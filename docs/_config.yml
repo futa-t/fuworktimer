@@ -1,6 +1,7 @@
 title: fuworktimer
 baseurl: "/" 
 url: "https://futa-t.github.io/fuworktimer" 
+favicon: assets/favicon.ico
 github_username:  futa-t
 
 theme: minima
