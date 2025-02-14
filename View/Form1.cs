@@ -25,7 +25,7 @@ public partial class Form1 : Form
         }
 
         InitializeComponent();
-        windowList = WindowList.FromSaveFile(GetDailySaveFileName());
+        windowList = WindowList.FromSaveFile(AllTimeSaveFileName);
 
         lastActive = windowList.GetActiveWindowData();
 
@@ -42,10 +42,18 @@ public partial class Form1 : Form
     {
         string today = DateTime.Now.ToString("yyMMdd");
 
-        return Path.Combine(Program.AppDir, $"{today}.pack");
+        return Path.Combine(Program.AppDir, $"{today}.mp");
     }
 
-    bool Save() => windowList.Save(GetDailySaveFileName());
+    string DailySaveFileName => GetDailySaveFileName();
+
+    string AllTimeSaveFileName => Path.Combine(Program.AppDir, "alltime.mp");
+
+    void Save()
+    {
+        windowList.Save(DailySaveFileName);
+        windowList.Save(AllTimeSaveFileName);
+    }
 
     private void timer1_Tick(object sender, EventArgs e)
     {

@@ -19,21 +19,21 @@ public class WindowData
     [JsonIgnore]
     public int SessionTime { get; set; } = 0;
 
-    public WindowData(string processName, string displayName, Color color, int activeTimeTotal = 0)
+    public WindowData(string processName, string displayName, Color color, int totalTime = 0)
     {
         this.ProcessName = processName;
         this.DisplayName = displayName;
         this.Color = color;
-        this.TotalTime = activeTimeTotal;
+        this.TotalTime = totalTime;
     }
 
     [JsonConstructor]
-    public WindowData(string processName, string displayName, int activeTimeTotal)
+    public WindowData(string processName, string displayName, int totalTime)
     {
         this.ProcessName = processName;
         this.DisplayName = displayName;
         // ColorはIntColorで設定される
-        this.TotalTime = activeTimeTotal;
+        this.TotalTime = totalTime;
     }
 
     public static WindowData FromProcessInfo(ProcessInfo process)

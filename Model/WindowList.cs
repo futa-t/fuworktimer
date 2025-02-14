@@ -92,7 +92,6 @@ class WindowDataStorage
             Program.ErrorLog(ex);
             return false;
         }
-
     }
 
     public static IEnumerable<WindowData> Load(string fileName)
@@ -107,6 +106,7 @@ class WindowDataStorage
                     if (WindowData.FromJson(data) is WindowData wd) 
                         windowDatas.Add(wd);
         }
+        catch (FileNotFoundException) { }
         catch (Exception ex)
         {
             Program.ErrorLog(ex);

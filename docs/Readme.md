@@ -1,5 +1,6 @@
 # fuworktimer
-[![GitHub Release](https://img.shields.io/github/release/futa-t/fuworktimer.svg?style=flat)](https://github.com/futa-t/fuworktimer/releases/latest/)  
+[![GitHub license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/futa-t/fuworktimer/blob/main/LICENSE)
+[![GitHub Release](https://img.shields.io/github/release/futa-t/fuworktimer.svg?style=flat&color=sucess)](https://github.com/futa-t/fuworktimer/releases/latest/)
 
 ## 目次
 - [機能](#機能)
