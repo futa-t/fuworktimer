@@ -117,6 +117,8 @@ public partial class Form1 : Form
             time = wd.TotalTime;
         else if (viewSessionTime.Checked)
             time = wd.SessionTime;
+        else if (viewDailyTime.Checked)
+            time = wd.DailyTime;
 
         ActiveTimeLabel.Text = fmt_hms(time);
 
