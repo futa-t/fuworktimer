@@ -63,7 +63,12 @@ internal partial class Statistics : Form
         var panel = new Panel { Dock = DockStyle.Fill };
         var colorLabel = new Panel { BackColor = wd.Color, Width = 8, Location = new(0, 0) };
         panel.Controls.Add(colorLabel);
-        var lprocname = new Label { Text = wd.DisplayName, Location = new(10, 0), Font = new(new FontFamily("メイリオ"), 14), AutoSize = true, TextAlign = ContentAlignment.MiddleLeft };
+        string displayName = wd.DisplayName;
+        if (string.IsNullOrEmpty(displayName))
+        {
+            displayName = wd.ProcessName;
+        }
+        var lprocname = new Label { Text = displayName, Location = new(10, 0), Font = new(new FontFamily("メイリオ"), 14), AutoSize = true, TextAlign = ContentAlignment.MiddleLeft };
         panel.Height = lprocname.Height + 8;
         panel.Controls.Add(lprocname);
 
