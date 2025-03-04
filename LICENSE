@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--------------
-
-This project uses the following third-party libraries.
-Please refer to each library's license for more details on their terms and conditions.
-
-1. MemoryPack: MIT License
-   https://github.com/Cysharp/MemoryPack/blob/main/LICENSE.md
