@@ -13,7 +13,7 @@
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <ErrorReport>none</ErrorReport>
     <StartupObject>fuworktimer.Program</StartupObject>
-    <AssemblyVersion>1.3.0</AssemblyVersion>
+    <AssemblyVersion>1.4.0</AssemblyVersion>
     <Configurations>Debug;Release</Configurations>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <NoWarn>CS7035</NoWarn>
