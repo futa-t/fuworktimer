@@ -1,1 +1,1 @@
-fuver || exit /b 0
+fuver increment build || exit /b 0

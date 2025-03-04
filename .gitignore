@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 *.pack
 *.clip
+fuver.toml
