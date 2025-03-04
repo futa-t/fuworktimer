@@ -1,0 +1,8 @@
+NOTICES
+
+This project uses the following third-party libraries:
+
+---
+
+MemoryPack: MIT License
+https://github.com/Cysharp/MemoryPack/blob/main/LICENSE.md
