@@ -12,7 +12,7 @@
 
 ## 機能
 #### メイン画面
-![基本アプリ画面](./assets/kidou.png)
+![基本アプリ画面](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/kidou.png)
 1. 現在アクティブなウィンドウのプロセス名が表示されます。
 1. 現在アクティブなウィンドウのアクティブ時間が表示されます。  
 右クリックでメニューが開きます。
@@ -20,7 +20,7 @@
 #### メニュー
 各種設定などができます。  
 
-![右クリックメニュー](./assets/context.png)
+![右クリックメニュー](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/context.png)
 - フォーカス[プロセス名] / フォーカス終了  
     [フォーカスモード](#フォーカスモード)を切り替えます
     
@@ -48,7 +48,7 @@
 #### 統計ウィンドウ
 登録されいているプロセスの累計アクティブ時間の一覧を確認できます。
 
-![統計ウィンドウ](./assets/toukei.png)
+![統計ウィンドウ](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/toukei.png)
 
 #### フォーカスモード
 特定のウィンドウで集中して作業したいときのモードです。  
@@ -58,17 +58,17 @@
 設定したウィンドウ以外がアクティブな間はカウントが停止し背景がグレーになります。
 
 アクティブ時  
-![フォーカスモードアクティイブ時](./assets/focus.png)  
+![フォーカスモードアクティイブ時](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/focus.png)  
 
 非アクティブ時  
-![フォーカスモード非アクティイブ時](./assets/focusout.png)  
+![フォーカスモード非アクティイブ時](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/focusout.png)  
 
 #### タスクトレイ
 アプリ起動後タスクトレイに常駐します。マウスホバーで現在の情報が表示されれます。  
-![タスクトレイアイコンとマウスホバーによる情報表示](./assets/tasktray.png)  
+![タスクトレイアイコンとマウスホバーによる情報表示](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/tasktray.png)  
 
 フォーカスモード中は非アクティブ時にアイコンが変化します。  
-![非アクティブ時タスクトレイアイコン](./assets/tasktrayoutfocus.png)  
+![非アクティブ時タスクトレイアイコン](https://github.com/futa-t/fuworktimer/blob/main/docs/assets/tasktrayoutfocus.png)  
 
 ## 動作環境
 動作確認ができている環境は以下です。
